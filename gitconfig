@@ -1,3 +1,6 @@
+[user]
+	name = Yuan
+	email = apexy2007@gmail.com
 [push]
   default = current
 [color]
@@ -12,12 +15,32 @@
   delete-branch = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
   merge-branch = !git checkout master && git merge @{-1}
   pr = !hub pull-request
-  st = status
   up = !git fetch origin && git rebase origin/master
+  ss = status
+	br = branch
+	cob   = checkout -b
+  diffs = diff --stat
+  diffc = diff --staged
+  lg    = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  lg1   = log -p -1
+  last  = log -1 HEAD
+  mg    = merge
+  mgf   = merge --no-ff
+  mg1   = merge --squash
+	pub  = archive --format=zip master
 [core]
   excludesfile = ~/.gitignore
-  autocrlf = input
+  # autocrlf = input
 [merge]
   ff = only
 [include]
   path = .gitconfig.local
+[github]
+	user = apexy
+	token = 5fbade48e2d32b27b02161de8c0f7f55
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

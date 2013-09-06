@@ -38,7 +38,7 @@ bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
 setopt prompt_subst
 
 # prompt
-export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
+# export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
 
 # ignore duplicate history entries
 setopt histignoredups
@@ -69,3 +69,41 @@ setopt EXTENDED_GLOB
 
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+
+##############################################################################
+
+ZSH=$HOME/.oh-my-zsh
+
+#ZSH_THEME="random"
+ZSH_THEME="robbyrussell"
+
+alias viv="mvim ~/.vimrc"
+alias viz="mvim ~/.zshrc"
+# alias viohz="mvim ~/.oh-my-zsh"
+alias rbe="rbenv"
+alias cl="clear"
+alias tmux="TERM=screen-256color-bce tmux"
+
+alias devup="mysql.server start && sudo /Applications/MAMP/Library/bin/httpd -f /Library/Application\ Support/appsolute/MAMP\ PRO/conf/httpd.conf -k start"
+alias devdown="mysql.server stop && sudo /Applications/MAMP/Library/bin/httpd -f /Library/Application\ Support/appsolute/MAMP\ PRO/conf/httpd.conf -k stop"
+
+plugins=(brew osx history colored-man encode64 tmux tmuxinator 
+         vundle git git-extras git-flow postgres 
+         rbenv bundler ruby rails4 rake zeus)
+
+source $ZSH/oh-my-zsh.sh
+unsetopt correct
+
+export PATH=/usr/local/bin:/usr/local/sbin:~/.nvm/v0.8.9/bin:$PATH
+
+#path=(
+    #/usr/local/bin
+    #/Users/Yuan/.nvm/v0.8.9/bin
+    #$path
+#)
+
+eval "$(rbenv init -)"
+[[ -s "$HOME/.tmuxinator/scripts/tmuxinator" ]] && source "$HOME/.tmuxinator/scripts/tmuxinator"
+[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+

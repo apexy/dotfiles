@@ -21,6 +21,11 @@ if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endif
 
+" Encoding
+set enc=utf-8
+set fenc=utf-8 " default fileencoding
+set fencs=ucs-bom,utf-8,gb18030,gbk,gb2312,cp936,big5,euc-jp,euc-kr,latin1
+
 filetype plugin indent on
 
 augroup vimrcEx
@@ -49,11 +54,15 @@ augroup vimrcEx
 
   " Automatically wrap at 80 characters for Markdown
   autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+	
+  " Set PHP file tabs
+  autocmd FileType php set ai tabstop=4 shiftwidth=4 softtabstop=4
 augroup END
 
 " Softtabs, 2 spaces
 set tabstop=2
 set shiftwidth=2
+set softtabstop=2
 set expandtab
 
 " Display extra whitespace
@@ -69,34 +78,39 @@ if executable('ag')
 endif
 
 " Color scheme
-colorscheme github
-highlight NonText guibg=#060606
-highlight Folded  guibg=#0A0A0A guifg=#9090D0
+colorscheme hybrid
+set guifont=Menlo\ Regular:h13
+"highlight NonText guibg=#060606
+"highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Numbers
 set number
 set numberwidth=5
 
+set dictionary-=~/.vim/dict/funclist.txt dictionary+=~/.vim/dict/funclist.txt
+
 " Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
+" let g:snippetsEmu_key = "<S-Tab>"
 
 " Tab completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
 set wildmode=list:longest,list:full
 set complete=.,w,t
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+" function! InsertTabWrapper()
+"     let col = col('.') - 1
+"     if !col || getline('.')[col - 1] !~ '\k'
+"         return "\<tab>"
+"     else
+"         return "\<c-p>"
+"     endif
+" endfunction
+" inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+
+" Mappings {{{
 
 " Index ctags from any project, including those outside Rails
 map <Leader>ct :!ctags -R .<CR>
@@ -105,10 +119,16 @@ map <Leader>ct :!ctags -R .<CR>
 nnoremap <leader><leader> <c-^>
 
 " Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
+" nnoremap <Left> :echoe "Use h"<CR>
+" nnoremap <Right> :echoe "Use l"<CR>
+" nnoremap <Up> :echoe "Use k"<CR>
+" nnoremap <Down> :echoe "Use j"<CR>
+
+" Easy buffer navigation
+nnoremap <Up> <ESC>:bN<CR>
+nnoremap <Down> <ESC>:bn<CR>
+nnoremap <Left> <<
+nnoremap <Right> >>
 
 " vim-rspec mappings
 nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
@@ -128,8 +148,78 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+" Begining & End of line in Normal mode
+noremap H ^
+noremap L g_
+
+" more natural movement with wrap on
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
+nnoremap ; :
+
+" better ESC
+inoremap jj <Esc>
+inoremap uu _
+
+"make the tab key match bracket pairs
+nmap <tab> %
+vmap <s-tab> %
+
+" Insert New Line without going into insert mode
+map <Enter> o<ESC>
+
+" Yank content in OS's clipboard. `o` stands for OS's Clipoard.
+vnoremap <leader>yo "*y
+" Paste content from OS's clipboard
+nnoremap <leader>po "*p
+
+"add a '====' line above current line
+nmap <leader>1 yyPVr=
+"add a '----' line above current line
+nmap <leader>2 yyPVr-
+"add a '####' line above current line
+nmap <leader>3 yyPVr#
+
+"}}}
+
+" Plugin {{{
+
+nmap <C-u> :NERDTreeToggle<CR>
+nmap <leader>bb :CtrlPBuffer<CR>
+nmap <leader>rr :CtrlPMRU<CR>
+let g:sparkupExecuteMapping='<c-b>'
+" let g:UltiSnipsExpandTrigger="<s-tab>"
+
+
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=1
+let g:syntastic_enable_signs=1
+"let g:syntastic_auto_loc_list=1
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+"let g:syntastic_phpcs_conf = "--tab-width=4 --standard=CodeIgniter"
+nmap E :Errors<cr>
+
+
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a> :Tabularize /=><CR>
+vmap <Leader>a> :Tabularize /=><CR>
+nmap <Leader>a: :Tabularize /:<CR>
+vmap <Leader>a: :Tabularize /:<CR>
+nmap <Leader>a:: :Tabularize /:\zs<CR>
+vmap <Leader>a:: :Tabularize /:\zs<CR>
+nmap <Leader>a, :Tabularize /,<CR>
+vmap <Leader>a, :Tabularize /,<CR>
+nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+
+"}}}
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")

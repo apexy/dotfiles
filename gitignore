@@ -8,3 +8,7 @@ tags
 tmp/**/*
 !tmp/cache/.keep
 zeus.json
+*~
+*.log
+.idea/
+vendor/bundle
