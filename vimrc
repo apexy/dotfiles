@@ -11,6 +11,11 @@ set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set laststatus=2  " Always display the status line
 
+set undodir=~/.vim/tmp/undo//     " undo files
+set undofile
+set undolevels=1000         "maximum number of changes that can be undone
+set undoreload=10000        "maximum number lines to save for undo on a buffer reload
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
@@ -54,9 +59,10 @@ augroup vimrcEx
 
   " Automatically wrap at 80 characters for Markdown
   autocmd BufRead,BufNewFile *.md setlocal textwidth=80
-	
-  " Set PHP file tabs
+
+  " Set PHP, HTML file tabs
   autocmd FileType php set ai tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd BufNewFile,BufReadPost *.html setl tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 augroup END
 
 " Softtabs, 2 spaces
@@ -88,6 +94,10 @@ set number
 set numberwidth=5
 
 set dictionary-=~/.vim/dict/funclist.txt dictionary+=~/.vim/dict/funclist.txt
+
+" Remove trailing whitespaces when saving
+" Wanna know more? http://vim.wikia.com/wiki/Remove_unwanted_spaces
+autocmd BufWritePre * :%s/\s\+$//e
 
 " Snippets are activated by Shift+Tab
 " let g:snippetsEmu_key = "<S-Tab>"
@@ -189,10 +199,12 @@ nmap <leader>3 yyPVr#
 " Plugin {{{
 
 nmap <C-u> :NERDTreeToggle<CR>
+nmap <leader>y :YRShow<cr>
 nmap <leader>bb :CtrlPBuffer<CR>
 nmap <leader>rr :CtrlPMRU<CR>
 let g:sparkupExecuteMapping='<c-b>'
 " let g:UltiSnipsExpandTrigger="<s-tab>"
+let g:rspec_command = "!bundle exec rspec {spec}"
 
 
 " configure syntastic syntax checking to check on open as well as save

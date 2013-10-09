@@ -37,10 +37,15 @@ Bundle 'kana/vim-textobj-user'
 Bundle 'nelstrom/vim-textobj-rubyblock'
 Bundle 'bootleq/vim-textobj-rubysymbol'
 
+Bundle 'vim-scripts/YankRing.vim'
+let g:yankring_history_dir = '~/.vim/tmp'
+let g:yankring_replace_n_pkey = '<leader>['
+let g:yankring_replace_n_nkey = '<leader>]'
+
 Bundle 'bling/vim-airline'
 let g:airline_theme='light'
 let g:airline_enable_fugitive=1
-let g:airline_enable_syntastic=1
+let g:airline_enable_syntastic=0
 " unicode symbols
 let g:airline_left_sep = '»'
 let g:airline_left_sep = '▶'

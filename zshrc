@@ -4,7 +4,7 @@ fpath=(~/.zsh/completion $fpath)
 # completion
 autoload -U compinit
 compinit
-
+# 
 for function in ~/.zsh/functions/*; do
   source $function
 done
@@ -35,7 +35,7 @@ bindkey "^N" insert-last-word
 bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
 
 # expand functions in the prompt
-setopt prompt_subst
+# setopt prompt_subst
 
 # prompt
 # export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
@@ -47,7 +47,7 @@ setopt histignoredups
 export HISTSIZE=4096
 
 # look for ey config in project dirs
-export EYRC=./.eyrc
+# export EYRC=./.eyrc
 
 # automatically pushd
 setopt auto_pushd
@@ -75,7 +75,7 @@ setopt EXTENDED_GLOB
 
 ZSH=$HOME/.oh-my-zsh
 
-#ZSH_THEME="random"
+# ZSH_THEME="random"
 ZSH_THEME="robbyrussell"
 
 alias viv="mvim ~/.vimrc"
